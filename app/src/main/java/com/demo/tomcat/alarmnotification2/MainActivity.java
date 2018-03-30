@@ -3,7 +3,10 @@ package com.demo.tomcat.alarmnotification2;
 import android.annotation.SuppressLint;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
+import android.content.ComponentName;
 import android.content.Intent;
+import android.content.ServiceConnection;
+import android.os.IBinder;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -27,6 +30,21 @@ public class MainActivity extends AppCompatActivity
 
     AlarmManager    alarmManager;
     PendingIntent   pendingIntent;
+    //AlarmService    alarmServiceBinder;
+    //ServiceConnection AlarmServiceConnection = new ServiceConnection() {
+    //    @Override
+    //    public void onServiceConnected(ComponentName name, IBinder service)
+    //    {
+    //        Log.w(TAG, "onServiceConnected(), ");
+    //        alarmServiceBinder = ((AlarmService.AlarmServiceBinder) service).getAlarmService();
+    //    }
+    //
+    //    @Override
+    //    public void onServiceDisconnected(ComponentName name)
+    //    {
+    //        Log.w(TAG, "onServiceDisconnected(), ");
+    //    }
+    //};
 
 
 
@@ -61,7 +79,7 @@ public class MainActivity extends AppCompatActivity
     public void onToggleClicked(View view)
     {
         Log.w(TAG, "onToggleClicked(), ");
-        if (((ToggleButton)view).isChecked())
+        if (((ToggleButton)view).isChecked() && pendingIntent == null)
         {
             Log.d(TAG, "Alarm On");
             Calendar calendar = Calendar.getInstance();
@@ -75,6 +93,7 @@ public class MainActivity extends AppCompatActivity
         else
         {
             alarmManager.cancel(pendingIntent);
+            pendingIntent = null;
             setAlarmText("");
             Log.d(TAG, "Alarm Off");
         }
@@ -101,6 +120,8 @@ public class MainActivity extends AppCompatActivity
     {
         alarmTextView.setText(alarmText);
     }
+
+
 
 
 }
